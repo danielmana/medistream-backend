@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from datetime import datetime
 
 
 @receiver(post_save, sender=User)
@@ -55,18 +56,17 @@ class Speaker(models.Model):
 
 class Talk(models.Model):
     ''' Model features for a talk '''
-    order = models.IntegerField(default=1)
+    start_time = models.DateTimeField(default=datetime.now)
     title = models.CharField(max_length=200)
     event = models.ForeignKey(Event, related_name='talks')
     speaker = models.ForeignKey(Speaker, related_name='talks', blank=True, null=True)
-    start_time = models.DateTimeField(blank=True, null=True)
     abstract = models.TextField(blank=True)
     pod_id = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        return u'%d: %s' % (self.order, self.title)
+        return u'%s' % self.title
 
     class Meta:
         verbose_name_plural = 'Talks'
-        unique_together = ('event', 'order')
-        ordering = ('order',)
+        unique_together = ('event', 'start_time')
+        ordering = ('start_time',)
