@@ -7,7 +7,7 @@ def launch(version="", port=8001):
 
 def install(version=""):
 	local("pip install south django djangorestframework django-cors-headers")
-	local("python%s manage.py syncdb" % version)
+	local("python%s manage.py syncdb --all" % version)
 	local("python%s manage.py schemamigration --initial medistream" % version)
 	local("python%s manage.py migrate rest_framework.authtoken " % version)
 	local("python%s manage.py createsuperuser" % version)
