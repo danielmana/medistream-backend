@@ -22,3 +22,8 @@ class TalkViewSet(viewsets.ReadOnlyModelViewSet):
 class OrganizerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = OrganizerSerializer
     queryset = Organizer.objects.all()
+
+
+class SpeakerViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = SpeakerSerializer
+    queryset = Speaker.objects.all()

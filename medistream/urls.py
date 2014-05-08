@@ -8,6 +8,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'events', views.EventViewSet)
 router.register(r'talks', views.TalkViewSet)
 router.register(r'organizers', views.OrganizerViewSet)
+router.register(r'speakers', views.SpeakerViewSet)
 urlpatterns = router.urls
 
 urlpatterns += patterns('',
