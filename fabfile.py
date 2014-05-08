@@ -2,15 +2,17 @@ from fabric.api import local, cd, run
 
 local_dir = './'
 
+
 def launch(version="", port=8001):
-	local("python%s manage.py runserver %s" % (version, port))
+    local("python%s manage.py runserver %s" % (version, port))
+
 
 def install(version=""):
-	local("pip install south django djangorestframework django-cors-headers")
-	local("python%s manage.py syncdb --all" % version)
-	local("python%s manage.py schemamigration --initial medistream" % version)
-	local("python%s manage.py migrate rest_framework.authtoken " % version)
-	local("python%s manage.py createsuperuser" % version)
+    local("pip install -r requirements.txt")
+    local("python%s manage.py syncdb" % version)
+    local("python%s manage.py migrate" % version)
+    local("python%s manage.py createsuperuser" % version)
+
 
 def clean():
     """Remove all the .pyc files"""
