@@ -82,6 +82,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'south',
     'corsheaders',
+    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging
