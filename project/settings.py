@@ -6,6 +6,9 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication'
+    ),
+    'DEFAULT_FILTER_BACKENDS': (
+        'rest_framework.filters.DjangoFilterBackend',
     )
 }
 
@@ -82,7 +85,6 @@ INSTALLED_APPS = (
     'rest_framework',
     'south',
     'corsheaders',
-    'gunicorn',
 )
 
 # A sample logging configuration. The only tangible logging

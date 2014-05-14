@@ -24,7 +24,6 @@ class OrganizerSerializer(serializers.ModelSerializer):
 
 
 class EventSerializer(serializers.ModelSerializer):
-    talks = TalkSerializer(many=True)
     organizer = OrganizerSerializer()
 
     class Meta:

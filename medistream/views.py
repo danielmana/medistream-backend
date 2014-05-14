@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from rest_framework import viewsets
 from medistream.serializers import *
+from medistream.filters import *
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -17,6 +18,7 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 class TalkViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = TalkSerializer
     queryset = Talk.objects.all()
+    filter_class = TalkFilter
 
 
 class OrganizerViewSet(viewsets.ReadOnlyModelViewSet):
