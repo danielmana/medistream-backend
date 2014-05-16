@@ -3,5 +3,5 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('backend.views',
-                       url(r'^admin/', include(admin.site.urls)),
-                       url(r'^api/', include('medistream.urls')))
+                       url(r'^backend/admin/', include(admin.site.urls)),
+                       url(r'^backend/api/', include('medistream.urls')))
