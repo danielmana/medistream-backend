@@ -8,11 +8,6 @@ class UserSerializer(serializers.ModelSerializer):
         model = User
 
 
-class TalkSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Talk
-
-
 class SpeakerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Speaker
@@ -21,6 +16,13 @@ class SpeakerSerializer(serializers.ModelSerializer):
 class OrganizerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Organizer
+
+
+class TalkSerializer(serializers.ModelSerializer):
+    speaker = SpeakerSerializer()
+
+    class Meta:
+        model = Talk
 
 
 class EventSerializer(serializers.ModelSerializer):
