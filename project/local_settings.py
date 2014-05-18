@@ -24,7 +24,7 @@ DATABASES = {
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
 # In a Windows environment this must be set to your system time zone.
-TIME_ZONE = 'America/Denver'
+TIME_ZONE = 'Europe/Madrid'
 
 # Absolute path to the project directory.
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -57,5 +57,5 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8000',
     'localhost:9000',
     '127.0.0.1:9000',
-    'localhost/',
+    'localhost',
 )
