@@ -16,6 +16,7 @@ class EventViewSet(viewsets.ReadOnlyModelViewSet):
 
 
 class TalkViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
     serializer_class = TalkSerializer
     queryset = Talk.objects.all()
     filter_class = TalkFilter
