@@ -122,3 +122,9 @@ try:
     INSTALLED_APPS += DEBUG_APPS
 except ImportError:
     pass
+
+# Configuration for sending emails
+EMAIL_SUBJECT_PREFIX = '[Medistream Support] '
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

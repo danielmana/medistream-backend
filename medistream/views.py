@@ -1,10 +1,11 @@
 from django.contrib.auth import get_user_model
-
+from django.core.mail import mail_admins, BadHeaderError
 from rest_framework import permissions
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
+from smtplib import SMTPException
 
 from medistream.serializers import *
 from medistream.filters import *
@@ -32,6 +33,27 @@ def register(request):
         return Response(UserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(['POST'])
+def contact(request):
+    subject = request.DATA.get('name', 'NO NAME')
+    message = 'E-mail: %s\nPhone: %s\n\n%s' % (
+        request.DATA.get('email', 'NO EMAIL'),
+        request.DATA.get('phone', 'NO PHONE'),
+        request.DATA.get('message', 'NO MESSAGE'),
+    )
+    if subject and message:
+        try:
+            # send email to admins with the contact information
+            mail_admins(subject, message)
+        except BadHeaderError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+        except SMTPException:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return Response()
+    else:
+        return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
