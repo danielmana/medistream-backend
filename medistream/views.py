@@ -23,6 +23,7 @@ def current_user(request):
         user = User.objects.get(username=request.user.username)
         user.first_name = request.DATA.get('first_name')
         user.last_name = request.DATA.get('last_name')
+        user.speciality = Speciality.objects.get(id=request.DATA.get('speciality').get('id'))
         user.save()
         serializer = CustomUserSerializer(user)
 
@@ -34,7 +35,7 @@ def register(request):
     valid_user_fields = [f.name for f in get_user_model()._meta.fields]
     defaults = {
         # you can define any defaults that you would like for the user, here
-        'speciality': Speciality.objects.all()[0]
+        'speciality': Speciality.objects.get(id=request.DATA.get('speciality').get('id'))
     }
     serialized = CustomUserSerializer(data=request.DATA)
     if serialized.is_valid():
