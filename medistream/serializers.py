@@ -1,11 +1,18 @@
-from medistream.models import *
 from rest_framework import serializers
-from django.contrib.auth.models import User
+
+from medistream.models import *
 
 
-class UserSerializer(serializers.ModelSerializer):
+class SpecialitySerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Speciality
+
+
+class CustomUserSerializer(serializers.ModelSerializer):
+    speciality = SpecialitySerializer()
+
+    class Meta:
+        model = CustomUser
 
 
 class SpeakerSerializer(serializers.ModelSerializer):

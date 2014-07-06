@@ -11,16 +11,12 @@ from rest_framework.response import Response
 from medistream.serializers import *
 from medistream.filters import *
 
-
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = (permissions.IsAuthenticated,)
-    serializer_class = UserSerializer
-    queryset = User.objects.all()
+User = get_user_model()
 
 
 @api_view(['GET', 'POST'])
 def current_user(request):
-    serializer = UserSerializer(request.user)
+    serializer = CustomUserSerializer(request.user)
 
     # save user if POST
     if request.method == 'POST':
@@ -28,7 +24,7 @@ def current_user(request):
         user.first_name = request.DATA.get('first_name')
         user.last_name = request.DATA.get('last_name')
         user.save()
-        serializer = UserSerializer(user)
+        serializer = CustomUserSerializer(user)
 
     return Response(serializer.data)
 
@@ -38,15 +34,16 @@ def register(request):
     valid_user_fields = [f.name for f in get_user_model()._meta.fields]
     defaults = {
         # you can define any defaults that you would like for the user, here
+        'speciality': Speciality.objects.all()[0]
     }
-    serialized = UserSerializer(data=request.DATA)
+    serialized = CustomUserSerializer(data=request.DATA)
     if serialized.is_valid():
         user_data = {field: data for (field, data) in request.DATA.items() if field in valid_user_fields}
         user_data.update(defaults)
         user = get_user_model().objects.create_user(
             **user_data
         )
-        return Response(UserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
+        return Response(CustomUserSerializer(instance=user).data, status=status.HTTP_201_CREATED)
     else:
         return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -72,6 +69,12 @@ def contact(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = (permissions.IsAuthenticated,)
+    serializer_class = CustomUserSerializer
+    queryset = CustomUser.objects.all()
+
+
 class EventViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = EventSerializer
     queryset = Event.objects.all()
@@ -92,3 +95,8 @@ class OrganizerViewSet(viewsets.ReadOnlyModelViewSet):
 class SpeakerViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = SpeakerSerializer
     queryset = Speaker.objects.all()
+
+
+class SpecialityViewSet(viewsets.ReadOnlyModelViewSet):
+    serializer_class = SpecialitySerializer
+    queryset = Speciality.objects.all()

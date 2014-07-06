@@ -1,9 +1,11 @@
+from datetime import datetime
+
 from django.db import models
 from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from rest_framework.authtoken.models import Token
 from django.db.models.signals import post_save
 from django.dispatch import receiver
-from datetime import datetime
 
 
 @receiver(post_save, sender=User)
@@ -11,6 +13,25 @@ def create_auth_token(sender, instance=None, created=False, **kwargs):
     ''' Creates a token whenever a User is created '''
     if created:
         Token.objects.create(user=instance)
+
+
+class Speciality(models.Model):
+    name = models.CharField(max_length=200)
+
+    def __unicode__(self):
+        return u'%s' % self.name
+
+    class Meta:
+        verbose_name_plural = 'Specialities'
+        ordering = ('name',)
+
+
+class CustomUser(AbstractUser):
+    speciality = models.ForeignKey(Speciality, blank=True, null=True, related_name='specialities')
+
+    class Meta:
+        verbose_name_plural = 'Users'
+        ordering = ('username',)
 
 
 class Organizer(models.Model):
