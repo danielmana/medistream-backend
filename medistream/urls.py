@@ -5,6 +5,7 @@ from medistream import views
 
 urlpatterns = patterns('',
     url(r'^api-token-auth/', 'rest_framework.authtoken.views.obtain_auth_token'),
+    url(r'^users/current', 'medistream.views.current_user'),
     url(r'^users/register', 'medistream.views.register'),
     url(r'^contact', 'medistream.views.contact')
 )
