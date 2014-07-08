@@ -37,6 +37,7 @@ class CustomUser(AbstractUser):
 class Organizer(models.Model):
     name = models.CharField(max_length=200)
     website = models.URLField(max_length=200, blank=True)
+    logo = models.URLField(max_length=200, blank=True, help_text="URL to the organizer logo")
 
     def __unicode__(self):
         return u'%s' % self.name
@@ -78,6 +79,7 @@ class Event(models.Model):
 
 class Speaker(models.Model):
     name = models.CharField(max_length=200)
+    picture = models.URLField(max_length=200, blank=True, help_text="URL to the speaker profile picture")
 
     def __unicode__(self):
         return u'%s' % self.name
